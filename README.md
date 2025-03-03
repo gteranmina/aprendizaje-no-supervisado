@@ -1,4 +1,4 @@
-# Clasificación Supervisada
+# Clasificación Supervisada (Dogs vs Cats)
 
 ## Descripción
 

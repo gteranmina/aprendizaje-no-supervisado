@@ -1,57 +1,57 @@
-# Clasificación Supervisada (Dogs vs Cats)
+# Aprendizaje No Supervisado (Wine Quality)
 
 ## Descripción
 
-Este proyecto tiene como objetivo aplicar técnicas de **clasificación supervisada** para analizar y clasificar imágenes del dataset "Dogs vs Cats". Se implementaron dos enfoques principales:
+Este proyecto tiene como objetivo aplicar técnicas de **reducción de dimensionalidad** y **clusterización** para analizar y clasificar un conjunto de datos. Se implementaron dos métodos principales de reducción:
 
-- **Naive Bayes:**  
-  Se procesaron las imágenes aplanándolas después del preprocesamiento y se aplicó validación cruzada estratificada (10-fold). Aunque sus resultados fueron modestos (AUC ≈ 0.57), esta técnica sirvió como base para comparar métodos más avanzados.
+- **Isomap:** Se exploraron configuraciones variando el número de componentes (3, 5 y 7) y el número de vecinos (5 y 10).
+- **MDS (Multidimensional Scaling):** Se evaluó utilizando diferentes números de componentes (3, 5 y 7).
 
-- **Redes Neuronales Convolucionales (CNN):**  
-  Se diseñó e implementó una arquitectura de deep learning que permite capturar características complejas de las imágenes. Gracias a la validación cruzada estratificada, la CNN obtuvo excelentes resultados:
-  - **AUC:** ≈ 0.918  
-  - **Precisión:** ≈ 0.912  
-  - **Recall:** ≈ 0.917  
-  - **F1-score:** ≈ 0.913  
-
-El proyecto utiliza archivos locales para la carga de datos, extrayendo las etiquetas directamente de los nombres de los archivos (por ejemplo, "cat10" o "dog1").
+Posteriormente, se aplicó el algoritmo de **K-Means** tanto en el espacio original de los datos como en cada uno de los espacios reducidos, probando diferentes números de clusters (k de 2 a 8). El objetivo fue comparar el desempeño de cada esquema de clasificación mediante métricas no supervisadas.
 
 ## Metodología
 
-1. **Carga y Preprocesamiento:**  
-   - Se cargan las imágenes desde directorios locales y se redimensionan a 128x128 píxeles.  
-   - Se normalizan los valores de píxel y se extraen las etiquetas a partir del nombre del archivo.  
-   - El dataset se convierte a arrays de NumPy para facilitar el uso en el clasificador Naive Bayes.
+1. **Carga y Preprocesamiento:**
+   - Se carga el dataset (en formato Excel) y se eliminan datos faltantes para asegurar la calidad del análisis.
 
-2. **Entrenamiento y Evaluación de Modelos:**  
-   - **Naive Bayes:**  
-     Se aplicó validación cruzada estratificada (10-fold) sobre las imágenes aplanadas, obteniendo las métricas correspondientes.
-   - **Redes Neuronales Convolucionales (CNN):**  
-     Se implementó una arquitectura de CNN compuesta por capas de convolución, pooling y densas, entrenada mediante validación cruzada para evaluar su desempeño.
+2. **Reducción de Dimensionalidad:**
+   - **Isomap:** Se implementó variando los parámetros `n_components` y `n_neighbors`, generando visualizaciones en subplots de los espacios reducidos.
+   - **MDS:** Se aplicó para generar representaciones en diferentes dimensiones, permitiendo evaluar el desempeño gráfico.
 
-3. **Comparación de Resultados:**  
-   Se compararon las métricas de ambos modelos para identificar el enfoque con mejor desempeño.
+3. **Clusterización y Evaluación:**
+   - Se aplicó el algoritmo **K-Means** en el dataset original y en cada uno de los espacios reducidos.
+   - Para cada configuración se calcularon métricas de validación, como el **Silhouette Score** y el **Davies-Bouldin Index**, que evalúan la cohesión interna de los clusters y la separación entre ellos.
 
 ## Resultados
 
-### Naive Bayes
-- **AUC:** 0.57  
-- **Precisión:** 0.54  
-- **Recall:** 0.62  
-- **F1-score:** 0.58  
+Tras evaluar diversas configuraciones, se identificó que el **mejor esquema de clasificación** se obtuvo con:
 
-### CNN
-- **AUC:** 0.918  
-- **Precisión:** 0.912  
-- **Recall:** 0.917  
-- **F1-score:** 0.913  
+- **Reducción de Dimensionalidad (Isomap):**
+  - `n_components = 3`
+  - `n_neighbors = 5`
+- **Clusterización (K-Means):**
+  - `k = 3 clusters`
 
-Estos resultados evidencian que, aunque Naive Bayes sirve como referencia, las CNN ofrecen un desempeño significativamente superior en la clasificación de imágenes.
+### Métricas del Mejor Esquema
+
+- **Silhouette Score:** 0.998868  
+  _Indicador de una excelente separación y cohesión interna de los clusters._
+- **Davies-Bouldin Index:** ≈ 0.0865  
+  _Un índice bajo que señala una buena separación entre los clusters._
 
 ## Visualizaciones
 
-El repositorio incluye muestras de imágenes de entrenamiento con sus respectivas etiquetas, permitiendo observar de forma visual cómo se ha etiquetado cada imagen.
+El repositorio incluye gráficos que ilustran:
+
+- Los espacios reducidos obtenidos mediante Isomap y MDS.
+- La distribución de los clusters en cada configuración evaluada.
+- Comparativas de las métricas (Silhouette Score y Davies-Bouldin Index) para identificar el esquema óptimo.
 
 ## Conclusiones
 
-Este proyecto demuestra que aplicar técnicas de clasificación supervisada con un preprocesamiento adecuado puede lograr resultados sobresalientes en la clasificación de imágenes. La comparación entre Naive Bayes y CNN resalta la capacidad de los modelos de deep learning para capturar patrones complejos, lo que representa un paso importante hacia implementaciones empresariales y análisis de mercado.
+Este proyecto demuestra que combinar técnicas de reducción de dimensionalidad con algoritmos de clustering permite:
+- Simplificar la estructura de datos complejos.
+- Resaltar patrones y relaciones que no son evidentes en el espacio original.
+- Determinar de manera efectiva el esquema óptimo para la clasificación no supervisada.
+
+Es un ejemplo práctico de la aplicación de técnicas avanzadas de Machine Learning y Data Mining para extraer insights valiosos a partir de datos complejos.
